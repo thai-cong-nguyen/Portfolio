@@ -1,15 +1,15 @@
 import Link from "next/link";
+import Image from "next/image";
 
 // components
-import DevImage from "./DevImage";
 import { Button } from "./ui/button";
 import { Send, Download } from "lucide-react";
-
+import Azuki from "../public/azuki.png";
 const Introduction = () => {
   return (
     <section className="py-12 xl:py-24 h-[84vh] xl:pt-15">
       <div className="container mx-auto">
-        <div className="flex justify-between gap-x-8">
+        <div className="flex justify-between">
           {/* text */}
           <div className="flex flex-col max-w-prose">
             <div className="flex w-fit items-center border-b pb-2">
@@ -30,8 +30,19 @@ const Introduction = () => {
               Also, contact me if you have any questions. Please call me as
               Harry !
             </div>
+          </div>
+          {/* image and buttons */}
+          <div className="flex flex-col max-w-prose items-center gap-10">
+            {/* image */}
+            <div className="flex md:flex-col md:items-start md:justify-items-start items-center justify-center mx-auto">
+              <Image
+                src={Azuki}
+                alt="/"
+                className=" h-40 w-40 rounded-full grayscale transition-all duration-300 hover:rotate-15 hover:scale-110 hover:grayscale-0 max-w-prose"
+              />
+            </div>
             {/* buttons */}
-            <div className="mt-6 flex gap-x-10 flex-col md:flex-row gap-y-5 mx-auto">
+            <div className="mt-6 flex xl:gap-x-10 flex-col md:flex-row gap-y-5 mx-auto">
               <Link href="/contact">
                 <Button className="flex gap-x-2">
                   Contact me <Send size={14} />
@@ -42,9 +53,6 @@ const Introduction = () => {
               </Button>
             </div>
           </div>
-
-          {/* image */}
-          <div className="hidden xl:flex relative">image</div>
         </div>
       </div>
     </section>
