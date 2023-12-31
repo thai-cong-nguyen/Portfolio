@@ -7,7 +7,7 @@ import WritingsList from "@/components/writings/WritingsList";
 const Writings = () => {
   return (
     <main>
-      <div className="container mx-auto mt-10">
+      <div className="container mx-auto mt-12">
         <Title content="Writings" />
         <WritingsList />
       </div>

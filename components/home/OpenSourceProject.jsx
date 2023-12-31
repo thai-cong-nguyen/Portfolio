@@ -41,9 +41,10 @@ const fetchDataGithub = async () => {
     });
     const result = await data.json();
     const pinnedRepositories = result.data.user.pinnedItems.nodes;
-    return pinnedRepositories;
+    return pinnedRepositories ? pinnedRepositories : [];
   } catch (error) {
     console.error(error);
+    return [];
   }
 };
 
@@ -91,49 +92,53 @@ const OpenSourceProject = async () => {
           </div>
           {/* content */}
           <div className="grid gap-8 md:grid-cols-2">
-            {pinnedRepositories.map((item, index) => {
-              const style = styleCircles(hexToRgb(item.primaryLanguage.color));
-              return (
-                <a href={item.url} key={index} target="_blank">
-                  <CardItems
-                    cardsStyle="cursor-pointer flex w-full h-full flex-col transition-all duration-300 hover:border-ring"
-                    title={item.name}
-                    description={
-                      item.description
-                        ? item.description
-                        : "This repository have not a description"
-                    }
-                    contents={
-                      <div className="flex flex-row space-x-4 text-sm text-muted-foreground">
-                        {/* languages */}
-                        <div className="flex items-center gap-1">
-                          <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              class="mr-1 h-3 w-3"
-                              style={style}
-                            >
-                              <circle cx="12" cy="12" r="10"></circle>
-                            </svg>
+            {pinnedRepositories
+              ? pinnedRepositories.map((item, index) => {
+                  const style = styleCircles(
+                    hexToRgb(item.primaryLanguage.color)
+                  );
+                  return (
+                    <a href={item.url} key={index} target="_blank">
+                      <CardItems
+                        cardsStyle="cursor-pointer flex w-full h-full flex-col transition-all duration-300 hover:border-ring"
+                        title={item.name}
+                        description={
+                          item.description
+                            ? item.description
+                            : "This repository have not a description"
+                        }
+                        contents={
+                          <div className="flex flex-row space-x-4 text-sm text-muted-foreground">
+                            {/* languages */}
+                            <div className="flex items-center gap-1">
+                              <div>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="mr-1 h-3 w-3"
+                                  style={style}
+                                >
+                                  <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                              </div>
+                              {item.primaryLanguage.name}
+                            </div>
+                            {/* time */}
+                            <div>{formatDate(item.updatedAt)}</div>
                           </div>
-                          {item.primaryLanguage.name}
-                        </div>
-                        {/* time */}
-                        <div>{formatDate(item.updatedAt)}</div>
-                      </div>
-                    }
-                  />
-                </a>
-              );
-            })}
+                        }
+                      />
+                    </a>
+                  );
+                })
+              : ""}
           </div>
           <div className="flex justify-end">
             <a href="/projects">

@@ -39,10 +39,11 @@ const fetchDataGithub = async () => {
       }),
     });
     const result = await data.json();
-    const pinnedRepositories = result.data.user.repositories.nodes;
-    return pinnedRepositories ? pinnedRepositories : [];
+    const repositories = result.data.user.repositories.nodes;
+    return repositories ? repositories : [];
   } catch (error) {
     console.error(error);
+    return [];
   }
 };
 
@@ -86,53 +87,55 @@ const Repositories = async () => {
         <div className="flex flex-col gap-4 py-8">
           {/* content */}
           <div className="grid gap-8 md:grid-cols-2">
-            {repositories.map((item, index) => {
-              const style = item.primaryLanguage
-                ? styleCircles(hexToRgb(item.primaryLanguage.color))
-                : null;
-              return (
-                <a href={item.url} key={index} target="_blank">
-                  <CardItems
-                    cardsStyle="cursor-pointer flex w-full h-full flex-col transition-all duration-300 hover:border-ring"
-                    title={item.name}
-                    description={
-                      item.description
-                        ? item.description
-                        : "This repository has not a description"
-                    }
-                    contents={
-                      <div className="flex flex-row space-x-4 text-sm text-muted-foreground">
-                        {/* languages */}
-                        <div className="flex items-center gap-1">
-                          <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              class="mr-1 h-3 w-3"
-                              style={style}
-                            >
-                              <circle cx="12" cy="12" r="10"></circle>
-                            </svg>
+            {repositories
+              ? repositories.map((item, index) => {
+                  const style = item.primaryLanguage
+                    ? styleCircles(hexToRgb(item.primaryLanguage.color))
+                    : null;
+                  return (
+                    <a href={item.url} key={index} target="_blank">
+                      <CardItems
+                        cardsStyle="cursor-pointer flex w-full h-full flex-col transition-all duration-300 hover:border-ring"
+                        title={item.name}
+                        description={
+                          item.description
+                            ? item.description
+                            : "This repository has not a description"
+                        }
+                        contents={
+                          <div className="flex flex-row space-x-4 text-sm text-muted-foreground">
+                            {/* languages */}
+                            <div className="flex items-center gap-1">
+                              <div>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="mr-1 h-3 w-3"
+                                  style={style}
+                                >
+                                  <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                              </div>
+                              {item.primaryLanguage
+                                ? item.primaryLanguage.name
+                                : null}
+                            </div>
+                            {/* time */}
+                            <div>{formatDate(item.updatedAt)}</div>
                           </div>
-                          {item.primaryLanguage
-                            ? item.primaryLanguage.name
-                            : null}
-                        </div>
-                        {/* time */}
-                        <div>{formatDate(item.updatedAt)}</div>
-                      </div>
-                    }
-                  />
-                </a>
-              );
-            })}
+                        }
+                      />
+                    </a>
+                  );
+                })
+              : ""}
           </div>
         </div>
       </div>
