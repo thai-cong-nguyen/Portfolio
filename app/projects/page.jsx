@@ -1,7 +1,14 @@
 import React from "react";
 
+// Components
+import Repositories from "@/components/projects/Repositories";
+
 const Projects = () => {
-  return <div>Projects</div>;
+  return (
+    <main>
+      <Repositories />
+    </main>
+  );
 };
 
 export default Projects;
