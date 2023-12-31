@@ -9,6 +9,7 @@ import { FaArrowRight } from "react-icons/fa";
 // Fetching Data
 const fetchDataGithub = async () => {
   try {
+    console.log(process.env.GITHUB_ACCESS_TOKEN);
     const data = await fetch("https://api.github.com/graphql", {
       method: "POST",
       headers: {
@@ -40,6 +41,7 @@ const fetchDataGithub = async () => {
       }),
     });
     const result = await data.json();
+    console.log(result);
     const pinnedRepositories = result.data.user.pinnedItems.nodes;
     return pinnedRepositories ? pinnedRepositories : [];
   } catch (error) {
