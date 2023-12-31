@@ -23,7 +23,11 @@ const Nav = ({ containerStyles, linkStyles, underlineStyles }) => {
           <Link
             href={link.path}
             key={index}
-            className={`${`capitalize ${linkStyles}`}`}
+            className={`${`capitalize ${linkStyles}`} ${
+              link.path === path
+                ? `font-bold`
+                : "hover:text-blue hover:font-bold"
+            }`}
           >
             {link.path === path && (
               <motion.span

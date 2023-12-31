@@ -2,12 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 
 // components
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Send, Download } from "lucide-react";
-import Azuki from "../public/azuki.png";
+import Azuki from "@/public/azuki.png";
 const Introduction = () => {
   return (
-    <section className="py-12 xl:py-24 h-[84vh] xl:pt-15">
+    <section className="xl:mt-12">
       <div className="container mx-auto">
         <div className="flex justify-between">
           {/* text */}
@@ -17,9 +17,9 @@ const Introduction = () => {
               <span className="animate-wave text-5xl">✌️</span>
             </div>
             <p className="sub-title mt-6 mx-auto xl:mx-0">
-              I'm 20 years old. I'm studying Software Engineering at the{" "}
+              I'm 20 years olds and studying Software Engineering at the{" "}
               <a target="_blank" href="https://www.uit.edu.vn/">
-                Information of Technology University
+                University of Information Technology
               </a>{" "}
               in VietNam. I'm extremely curious and on passion of Blockchain.
               Currently I'm still learning more knowledge and looking for jobs
@@ -44,11 +44,14 @@ const Introduction = () => {
             {/* buttons */}
             <div className="mt-6 flex xl:gap-x-10 flex-col md:flex-row gap-y-5 mx-auto">
               <Link href="/contact">
-                <Button className="flex gap-x-2">
+                <Button className="flex gap-x-2 hover:scale-110 transition-all duration-300">
                   Contact me <Send size={14} />
                 </Button>
               </Link>
-              <Button variant="secondary" className="flex gap-x-2">
+              <Button
+                variant="secondary"
+                className="flex gap-x-2 hover:scale-110 transition-all duration-300"
+              >
                 My Resume <Download size={14} />
               </Button>
             </div>

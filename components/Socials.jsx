@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 // icons
 import {
   RiLinkedinFill,
@@ -49,9 +47,9 @@ const Socials = ({ containerStyles, iconsStyles }) => {
     <div className={`${containerStyles}`}>
       {pathIcons.map((icon, index) => {
         return (
-          <Link href={icon.path} key={index}>
+          <a href={icon.path} key={index} target="_blank">
             <div className={`${iconsStyles}`}>{icon.name}</div>
-          </Link>
+          </a>
         );
       })}
     </div>
