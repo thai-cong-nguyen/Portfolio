@@ -13,18 +13,17 @@ const Introduction = () => {
           {/* text */}
           <div className="flex flex-col max-w-prose">
             <div className="flex w-fit items-center border-b pb-2">
-              <h2 className="h2">Hey, I'm Harry Nguyen</h2>
+              <h2 className="h2">{"Hey, I'm Harry Nguyen"}</h2>
               <span className="animate-wave text-5xl">✌️</span>
             </div>
             <p className="sub-title mt-6 mx-auto xl:mx-0">
-              I'm 20 years olds and studying Software Engineering at the{" "}
+              {"I'm 20 years olds and studying Software Engineering at the "}
               <a target="_blank" href="https://www.uit.edu.vn/">
-                University of Information Technology
-              </a>{" "}
-              in VietNam. I'm extremely curious and on passion of Blockchain.
-              Currently I'm still learning more knowledge and looking for jobs
-              in Blockchain industry. I'm willing to learn and connect with
-              others around the World.
+                {"University of Information Technology "}
+              </a>
+              {
+                "in VietNam. I'm extremely curious and on passion of Blockchain. Currently I'm still learning more knowledge and looking for jobs in Blockchain industry. I'm willing to learn and connect with others around the World."
+              }
             </p>
             <div className="opacity-30 mx-auto xl:mx-0">
               Also, contact me if you have any questions. Please call me as
