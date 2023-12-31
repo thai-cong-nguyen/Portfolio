@@ -1,5 +1,5 @@
 import { configDotenv } from "dotenv";
-configDotenv({ path: "../../" });
+configDotenv();
 import React from "react";
 
 // components
