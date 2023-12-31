@@ -39,6 +39,7 @@ const fetchDataGithub = async () => {
       `,
       }),
     });
+    console.log(data);
     const result = await data.json();
     const pinnedRepositories = result.data.user.pinnedItems.nodes;
     return pinnedRepositories ? pinnedRepositories : [];
