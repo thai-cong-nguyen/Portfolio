@@ -3,9 +3,8 @@ import React from "react";
 // components
 import TimelineItem from "./TimelineItem";
 
-import Azuki from "@/public/azuki.png";
 import UIT from "@/public/Logo_UIT_updated.ico";
-import LearnWeb3 from "@/public/LearnWeb3.png";
+import LearnWeb3 from "@/public/Learnweb3.png";
 
 const timelineData = [
   {
