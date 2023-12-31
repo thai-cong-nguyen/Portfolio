@@ -7,7 +7,7 @@ import ContactDetail from "@/components/contact/ContactDetail";
 const Contact = () => {
   return (
     <main>
-      <div className="container mx-auto mt-10">
+      <div className="container mx-auto mt-12">
         <Title content="Contact" />
         <ContactDetail />
       </div>
