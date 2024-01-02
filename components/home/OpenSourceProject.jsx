@@ -1,88 +1,99 @@
-import { configDotenv } from "dotenv";
-configDotenv();
+"use client";
 import React from "react";
 
 // components
 import CardItems from "../CardItem";
 import { FaArrowRight } from "react-icons/fa";
+import SkeletonCard from "../SkeletonCard";
 
-// Fetching Data
-const fetchDataGithub = async () => {
-  try {
-    const data = await fetch("https://api.github.com/graphql", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          user(login: "thai-cong-nguyen") {
-            pinnedItems(first: 6, types: REPOSITORY) {
-              nodes {
-                ... on Repository {
-                  name
-                  description
-                  url
-                  createdAt
-                  updatedAt
-                  primaryLanguage {
-                    name
-                    color
-                  }
-                }
-              }
-            }
-          }
-        }
-      `,
-      }),
-    });
-    console.log(data);
-    const result = await data.json();
-    const pinnedRepositories = result.data.user.pinnedItems.nodes;
-    return pinnedRepositories ? pinnedRepositories : [];
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
+// hooks
+import usePinnedRepositories from "@/hooks/usePinnedRepository";
 
-const formatDate = (inputDate) => {
-  const date = new Date(inputDate);
+const OpenSourceProject = () => {
+  const data = usePinnedRepositories();
+  const formatDate = (inputDate) => {
+    const date = new Date(inputDate);
 
-  const options = { day: "numeric", month: "long", year: "numeric" };
-  const formattedDate = date.toLocaleDateString("en-UK", options);
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-UK", options);
 
-  return `Updated on ${formattedDate}`;
-};
-
-function hexToRgb(hex) {
-  // Remove the hash if it exists
-  hex = hex.replace(/^#/, "");
-
-  // Parse the hex values
-  const bigint = parseInt(hex, 16);
-
-  // Extract the RGB components
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-
-  // Return the RGB color
-  return { r, g, b };
-}
-
-const styleCircles = (rgbColor) => {
-  return {
-    fill: `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`,
-    color: `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`,
+    return `Updated on ${formattedDate}`;
   };
-};
 
-const OpenSourceProject = async () => {
-  const pinnedRepositories = await fetchDataGithub();
+  function hexToRgb(hex) {
+    // Remove the hash if it exists
+    hex = hex.replace(/^#/, "");
+
+    // Parse the hex values
+    const bigint = parseInt(hex, 16);
+
+    // Extract the RGB components
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+
+    // Return the RGB color
+    return { r, g, b };
+  }
+
+  const styleCircles = (rgbColor) => {
+    return {
+      fill: `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`,
+      color: `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b})`,
+    };
+  };
+
+  const getProjectsCard = (data) => {
+    return data
+      ? data.map((item, index) => {
+          const style = item.primaryLanguage
+            ? styleCircles(hexToRgb(item.primaryLanguage.color))
+            : null;
+          return (
+            <a href={item.url} key={index} target="_blank">
+              <CardItems
+                cardsStyle="cursor-pointer flex w-full h-full flex-col transition-all duration-300 hover:border-ring"
+                title={item.name}
+                description={
+                  item.description
+                    ? item.description
+                    : "This repository have not a description"
+                }
+                contents={
+                  <div className="flex flex-row space-x-4 text-sm text-muted-foreground">
+                    {/* languages */}
+                    <div className="flex items-center gap-1">
+                      <div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="mr-1 h-3 w-3"
+                          style={style}
+                        >
+                          <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                      </div>
+                      {item.primaryLanguage ? item.primaryLanguage.name : null}
+                    </div>
+                    {/* time */}
+                    <div>{formatDate(item.updatedAt)}</div>
+                  </div>
+                }
+              />
+            </a>
+          );
+        })
+      : Array.from({ length: 6 }).map((_, index) => {
+          return <SkeletonCard key={index} />;
+        });
+  };
   return (
     <section className="mt-12">
       <div className="container mx-auto">
@@ -93,53 +104,7 @@ const OpenSourceProject = async () => {
           </div>
           {/* content */}
           <div className="grid gap-8 md:grid-cols-2">
-            {pinnedRepositories
-              ? pinnedRepositories.map((item, index) => {
-                  const style = styleCircles(
-                    hexToRgb(item.primaryLanguage.color)
-                  );
-                  return (
-                    <a href={item.url} key={index} target="_blank">
-                      <CardItems
-                        cardsStyle="cursor-pointer flex w-full h-full flex-col transition-all duration-300 hover:border-ring"
-                        title={item.name}
-                        description={
-                          item.description
-                            ? item.description
-                            : "This repository have not a description"
-                        }
-                        contents={
-                          <div className="flex flex-row space-x-4 text-sm text-muted-foreground">
-                            {/* languages */}
-                            <div className="flex items-center gap-1">
-                              <div>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="mr-1 h-3 w-3"
-                                  style={style}
-                                >
-                                  <circle cx="12" cy="12" r="10"></circle>
-                                </svg>
-                              </div>
-                              {item.primaryLanguage.name}
-                            </div>
-                            {/* time */}
-                            <div>{formatDate(item.updatedAt)}</div>
-                          </div>
-                        }
-                      />
-                    </a>
-                  );
-                })
-              : ""}
+            {getProjectsCard(data)}
           </div>
           <div className="flex justify-end">
             <a href="/projects">

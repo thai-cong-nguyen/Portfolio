@@ -1,3 +1,4 @@
+"use client";
 // components
 import Introduction from "@/components/home/Introduction";
 import OpenSourceProject from "@/components/home/OpenSourceProject";
