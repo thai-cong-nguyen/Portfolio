@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://harry-nguyen-porfolio.vercel.app
+
+# Sitemaps
+Sitemap: https://harry-nguyen-porfolio.vercel.app/sitemap.xml
