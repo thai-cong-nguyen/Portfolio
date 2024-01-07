@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-sitemap": "next-sitemap --config=next-sitemap-config.js",
+    "sitemap": "next-sitemap"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.3",
@@ -21,6 +23,7 @@
     "framer-motion": "^10.16.16",
     "lucide-react": "^0.298.0",
     "next": "14.0.4",
+    "next-sitemap": "^4.2.3",
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-countup": "^6.5.0",
