@@ -1,16 +1,11 @@
-import { configDotenv } from "dotenv";
-configDotenv({ path: "../../.env" });
 import React, { useState, useEffect } from "react";
+import fetchData from "../api/github";
 
-// Fetching Data
-const fetchDataGithub = async () => {
-  const data = await fetch("https://api.github.com/graphql", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env["NEXT_PUBLIC_GITHUB_ACCESS_TOKEN"]}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+const useRepositories = () => {
+  const [data, setData] = useState(null);
+
+  const fetchDataAndUpdate = async () => {
+    const query = {
       query: `
             {
               user(login: "thai-cong-nguyen") {
@@ -32,19 +27,9 @@ const fetchDataGithub = async () => {
               }
             }
           `,
-    }),
-  });
-  const result = await data.json();
-  const repositories = result.data.user.repositories.nodes;
-  return repositories ? repositories : [];
-};
-
-const useRepositories = () => {
-  const [data, setData] = useState(null);
-
-  const fetchDataAndUpdate = async () => {
-    const newData = await fetchDataGithub();
-    setData(newData);
+    };
+    const newData = (await fetchData(query)).data.user.repositories.nodes;
+    newData ? setData(newData) : setData([]);
   };
 
   useEffect(() => {
